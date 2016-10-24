@@ -13,16 +13,13 @@ namespace Managers
         public static Manager Instance = new Manager();
         private Manager() { }
 
-        public List<Player> Players = new List<Player>();
-        CardDeck CardDeck = new CardDeck();
-        Table Table;
-
-        public static void GameStart(object state)
-        {
-
-        }
+        public static List<Player> Players = new List<Player>();
+        public static CardDeck CardDeck = new CardDeck();
+        public static Table Table;
 
         TimerCallback timeCB = new TimerCallback(GameStart);
+
+
         public List<Player> AddPlayer(string name)
         {
             Players.Add(new Player(name, 10000));
@@ -34,6 +31,13 @@ namespace Managers
         }
 
         
-        
+
+
+        public static void GameStart(object state)
+        {
+            Table = new Table(Players.ToArray(), 10);
+        }
+
+
     }
 }

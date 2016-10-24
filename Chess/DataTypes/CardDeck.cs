@@ -20,6 +20,7 @@ namespace DataTypes
                     Deck.Add(new Card((Lear)i, (Rating)j));
                 }
             }
+            MakeMixList();
         }
 
         public void MakeMixList()
