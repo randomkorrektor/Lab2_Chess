@@ -13,12 +13,11 @@ namespace Managers
         public static Manager Instance = new Manager();
         private Manager() { }
 
-        public static List<Player> Players = new List<Player>();
         public static List<Player> Users = new List<Player>();
         public static CardDeck CardDeck = new CardDeck();
         public static Table Table;
         public Timer timer;
-        public List<SystemMessage> SystemMessageList = new List<SystemMessage>();
+        public static List<SystemMessage> SystemMessageList = new List<SystemMessage>();
         public static int ratePlayers = 0;
         public static int Button = 0;
         public static int currentPlayer = 1;
@@ -26,41 +25,49 @@ namespace Managers
         TimerCallback timeCB = new TimerCallback(GameStart);
 
 
-        public List<Player> AddPlayer(string name)
+        public List<Player> AddUser(string name)
         {
-            Players.Add(new Player(name, 10000));
-            Users.Add(Players.Last());
-            if (Players.Count == 1)
+            Users.Add(new Player(name, 10000));
+            if (Users.Count == 1)
             {
                 timer = new Timer(GameStart, null, 120000, Timeout.Infinite);
             }
-            if (Players.Count > 4)
+            if (Users.Count > 4)
             {
                 timer.Dispose();
                 GameStart(true);
             }
-            return Players;
+            return Users;
 
         }
 
-        //Удалить в случае ненадобности
-        //public void SolvencyControl()
-        //{
-        //    for (int i = 0; i < Players.Count; i++)
-        //    {
-        //        if (Players[i].Money < Table.Bank.BigBlind)
-        //        {
-        //            SystemMessageList.Add(new SystemMessage("Not enough money to continue the game.", i));
-        //            Players.RemoveAt(i);
-        //        }
-        //    }
-        //}
-
-        public static bool RateToBank(Player player)
+        public static void SolvencyControl(int rise)
         {
-            player.Money -= Table.Bank.Rate;
-            Table.Bank.TableBank += Table.Bank.Rate;
-            return true;
+            int outP = 0;
+            for (int i = 0; i < Users.Count; i++)
+            {
+
+                if (Users[i].Money < rise)
+                {
+                    SystemMessageList.Add(new SystemMessage("Not enough money to continue the game.", i + outP));
+                    Users.RemoveAt(i);
+                    outP++;
+                }
+            }
+            outP = 0;
+        }
+
+        public static void RateToBank(Player player)
+        {
+            if(player.Money > Table.Bank.Rate)
+            {
+                player.Money -= Table.Bank.Rate;
+                Table.Bank.TableBank += Table.Bank.Rate;
+            }
+            else
+            {
+                new Exception("Error! Not enough money.");
+            }
         }
 
         public string RateOfPayer(Player player,string answer,int raise)
@@ -69,20 +76,22 @@ namespace Managers
             {
                 case "Call":
                     RateToBank(player);
+                    ratePlayers++;
                     break;
                 case "Raise":
-                    for (int i = 0; i < Players.Count; i++)
+                    for (int i = 0; i < Table.Players.Count; i++)
                     {
-                        if (Players[i].Money < Table.Bank.Rate + raise)
+                        if (Table.Players[i].Money < Table.Bank.Rate + raise)
                         {
-                            return "Player" + i + 1 + "is not enough money!";
+                            return "Player" + (i + 1) + "is not enough money!";
                         }
                     }
                     Table.Bank.RaiseRate(raise);
                     RateToBank(player);
+                    ratePlayers = 1;
                     break;
                 case "Fold":
-                    
+                    Table.Players.Remove(player);
                     break;
             default:
                     return "Invalid command!";
@@ -92,31 +101,37 @@ namespace Managers
 
         public static void NextPlayer()
         {
-            currentPlayer = currentPlayer + 1 % Players.Count;
+            currentPlayer = currentPlayer + 1 % Table.Players.Count;
         }
 
         public static void GameStart(object state)
         {
-            Table = new Table(Players.ToArray(), 10);
-            while(Players.Count>1)
+            SolvencyControl(10);
+            Table = new Table(Users.ToArray(), 10);
+            while(Users.Count>1)
             {
-                for (int i = 0; i < Players.Count; i++)
+                SolvencyControl(10);
+                for (int i = 0; i < Table.Players.Count; i++)
                 {
-                    if (Players[i].Money < Table.Bank.BigBlind)
-                    {
-                        Players[i].Hand = CardDeck.GetHand();
-                    }
+                    Table.Players[i].Hand = CardDeck.GetHand();
                 }
-                Players[currentPlayer].Money -= Table.Bank.SmallBlind;
+                Table.Players[currentPlayer].Money -= Table.Bank.SmallBlind;
                 Table.Bank.TableBank += Table.Bank.SmallBlind;
                 NextPlayer();
-                RateToBank(Players[currentPlayer]);
+                RateToBank(Table.Players[currentPlayer]);
                 NextPlayer();
 
-                while (ratePlayers < Players.Count)
+                int counter = 0;
+                while (ratePlayers < Table.Players.Count)
                 {
-                    //Ожидание ответа от игрока
-                    
+                    counter %= Table.Players.Count;
+                    //TODO: Разобраться с запрос-ответом
+                    //RateOfPayer(Table.Players[counter], answer, raise);       
+                    counter++;
+                }
+                if(Table.Players.Count>1)
+                {
+
                 }
             }
         }
