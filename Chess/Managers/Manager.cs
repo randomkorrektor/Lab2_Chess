@@ -77,6 +77,7 @@ namespace Managers
                 case "Call":
                     RateToBank(player);
                     ratePlayers++;
+                    NextPlayer();
                     break;
                 case "Raise":
                     for (int i = 0; i < Table.Players.Count; i++)
@@ -89,6 +90,7 @@ namespace Managers
                     Table.Bank.RaiseRate(raise);
                     RateToBank(player);
                     ratePlayers = 1;
+                    NextPlayer();
                     break;
                 case "Fold":
                     Table.Players.Remove(player);
@@ -101,7 +103,7 @@ namespace Managers
 
         public static void NextPlayer()
         {
-            currentPlayer = currentPlayer + 1 % Table.Players.Count;
+            currentPlayer = (currentPlayer + 1) % Table.Players.Count;
         }
 
         public static void GameStart(object state)
@@ -121,19 +123,125 @@ namespace Managers
                 RateToBank(Table.Players[currentPlayer]);
                 NextPlayer();
 
-                int counter = 0;
+                
                 while (ratePlayers < Table.Players.Count)
                 {
-                    counter %= Table.Players.Count;
                     //TODO: Разобраться с запрос-ответом
-                    //RateOfPayer(Table.Players[counter], answer, raise);       
-                    counter++;
+                    //RateOfPayer(Table.Players[currentPlayer], answer, raise);       
                 }
-                if(Table.Players.Count>1)
-                {
 
+                if (Table.Players.Count>1)
+                {
+                    Table.Cards = CardDeck.GetFlop();
+                    //Отдать всем карты
+                    while (ratePlayers < Table.Players.Count)
+                    {
+                        //TODO: Разобраться с запрос-ответом
+                        //RateOfPayer(Table.Players[currentPlayer], answer, raise);       
+                    }
                 }
+
+                if (Table.Players.Count > 1)
+                {
+                    Table.Cards.Add(CardDeck.TopCard());
+                    //Отдать всем Table.Cards
+                    while (ratePlayers < Table.Players.Count)
+                    {
+                        //TODO: Разобраться с запрос-ответом
+                        //RateOfPayer(Table.Players[currentPlayer], answer, raise);       
+                    }
+                }
+
+                if (Table.Players.Count > 1)
+                {
+                    Table.Cards.Add(CardDeck.TopCard());
+                    //Отдать всем Table.Cards
+                    while (ratePlayers < Table.Players.Count)
+                    {
+                        //TODO: Разобраться с запрос-ответом
+                        //RateOfPayer(Table.Players[currentPlayer], answer, raise);       
+                    }
+                }
+
+                if (Table.Players.Count > 1)
+                {
+                    //TODO: Выбор старшей комбинации, перечисление денег, оповещение
+                }
+
+                Table.Players.Last().Money += Table.Bank.TableBank;
+                Table.Bank.TableBank = 0;
+                Table.Players.Clear();
+                Table.Players.AddRange(Users);
             }
+
         }
+
+
+
+        //int getCombination(int[] hand, int[] board)
+        //{
+        //    int[] allCard;
+        //    if ((board == null) || (board.length == 0))
+        //    {
+        //        allCard = new int[hand.length];
+        //        System.arraycopy(hand, 0, allCard, 0, hand.length);
+        //    }
+        //    else 
+        //    {
+        //        allCard = new int[hand.length + board.length];
+        //        System.arraycopy(hand, 0, allCard, 0, hand.length);
+        //        System.arraycopy(board, 0, allCard, hand.length,
+        //        board.length);
+        //    }
+        //    int[] card = new int[allCard.length];
+        //    int[] suite = new int[allCard.length];
+        //    int[] suiteCount = new int[4];
+        //    sortHand(allCard, card, suite, suiteCount);
+        //    if (isRoyalFlush(card, suite, suiteCount) != -1)
+        //    {
+        //        return 117;
+        //    }
+        //    int result = isStraightFlush(card, suite, suiteCount);
+        //    if (result != -1)
+        //    {
+        //        return 104 + result;
+        //    }
+        //    result = isQuads(card);
+        //    if (result != -1)
+        //    {
+        //        return 91 + result;
+        //    }
+        //    result = isFullHouse(card);
+        //    if (result != -1)
+        //    {
+        //        return 78 + result;
+        //    }
+        //    result = isFlush(card, suite, suiteCount);
+        //    if (result != -1)
+        //    {
+        //        return 65 + result;
+        //    }
+        //    result = isStraight(card);
+        //    if (result != -1)
+        //    {
+        //        return 52 + result;
+        //    }
+        //    result = isSet(card);
+        //    if (result != -1)
+        //    {
+        //        return 39 + result;
+        //    }
+        //    result = isTwoPair(card);
+        //    if (result != -1)
+        //    {
+        //        return 26 + result;
+        //    }
+        //    result = isOnePair(card);
+        //    if (result != -1)
+        //    {
+        //        return 13 + result;
+        //    }
+        //    return isHighCard(card);
+        //}
     }
 }

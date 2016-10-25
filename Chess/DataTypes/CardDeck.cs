@@ -50,9 +50,9 @@ namespace DataTypes
             return new Card[] { TopCard(), TopCard() };
         }
 
-        public Card[] Get5Cards()
+        public List<Card> GetFlop()
         {
-            return new Card[] { TopCard(), TopCard(), TopCard(), TopCard(), TopCard() };
+            return new List<Card> { TopCard(), TopCard(), TopCard()};
         }
     }
 }

@@ -9,7 +9,7 @@ namespace DataTypes
     public class Table
     {
         public List<Player> Players = new List<Player>();
-        public Card[] Cards = new Card[5];
+        public List<Card> Cards = new List<Card>();
         public Bank Bank;
         public Table(Player[] players, int smallBlind )
         {
@@ -22,7 +22,8 @@ namespace DataTypes
         {
             Bank.SetSmallBlind(smallBlind);
         }
-        public void SetCards(Card[] cards)
+
+        public void SetCards(List<Card> cards)
         {
             Cards = cards;
         }
