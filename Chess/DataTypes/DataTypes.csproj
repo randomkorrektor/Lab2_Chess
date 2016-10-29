@@ -45,9 +45,10 @@
     <Compile Include="CardDeck.cs" />
     <Compile Include="Lear.cs" />
     <Compile Include="Player.cs" />
+    <Compile Include="PlayersCommand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Rating.cs" />
-    <Compile Include="SystemMessage.cs" />
+    <Compile Include="RoundType.cs" />
     <Compile Include="Table.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -10,10 +10,10 @@ namespace DataTypes
     {
         public List<Player> Players = new List<Player>();
         public List<Card> Cards = new List<Card>();
+        public CardDeck CardDeck = new CardDeck();
         public Bank Bank;
-        public Table(Player[] players, int smallBlind )
+        public Table( int smallBlind )
         {
-            Players.AddRange(players);
             Bank = new Bank(smallBlind);
         }
 
