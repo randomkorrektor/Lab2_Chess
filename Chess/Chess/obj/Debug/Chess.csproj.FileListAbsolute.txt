@@ -26,3 +26,6 @@ D:\Учебные материалы\4 курс\Программирование
 D:\Учебные материалы\4 курс\Программирование\Lab2\Chess\Chess\obj\Debug\Chess.g.resources
 D:\Учебные материалы\4 курс\Программирование\Lab2\Chess\Chess\obj\Debug\Chess.Properties.Resources.resources
 D:\Учебные материалы\4 курс\Программирование\Lab2\Chess\Chess\obj\Debug\Chess.csproj.GenerateResource.Cache
+D:\Учебные материалы\4 курс\Программирование\Lab2_Chess\Chess\Chess\bin\Debug\Chess.exe.config
+D:\Учебные материалы\4 курс\Программирование\Lab2_Chess\Chess\Chess\obj\Debug\Chess.exe
+D:\Учебные материалы\4 курс\Программирование\Lab2_Chess\Chess\Chess\obj\Debug\Chess.pdb
