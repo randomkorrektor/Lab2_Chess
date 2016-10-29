@@ -8,66 +8,58 @@ using System.Threading.Tasks;
 
 namespace Managers
 {
-    public class GameManager
+    class GameManager
     {
         public static GameManager Instance = new GameManager();
 
         public Table table = new Table(10);
 
-        private GameManager()
-        {
-            
-        }
+        private GameManager() { }
 
 
-        int ratePlayers = 0;
-        public int Button = 0;
-        int currentPlayer = 1;
 
-        int gameNumber = 0;
-        RoundType roundType = RoundType.Flop;
 
         public void StartGame()
         {
-            gameNumber++;
+            table.GameNumber++;
             UserManager.Instance.SolvencyControl(table.Bank.BigBlind);
-            if (UserManager.Instance.Users.Count<=1)
+            if (UserManager.Instance.Users.Count <= 1)
             {
-                UserManager.Instance.PlayerWin(UserManager.Instance.Users[0]);
+                IOManager.Instance.PlayerWin(UserManager.Instance.Users[0]);
                 return;
             }
-            UserManager.Instance.GameStart();
+            IOManager.Instance.StartingGame();
 
             for (int i = 0; i < table.Players.Count; i++)
             {
                 table.Players[i].Hand = table.CardDeck.GetHand();
             }
 
-            table.Players[currentPlayer].Money -= table.Bank.SmallBlind;
+            table.Players[table.CurrentPlayer].Money -= table.Bank.SmallBlind;
 
             table.Bank.TableBank += table.Bank.SmallBlind;
 
             NextPlayer();
-            RateToBank(currentPlayer);
+            RateToBank(table.CurrentPlayer);
             NextPlayer();
 
-            UserManager.Instance.RefreshUsers();
-            UserManager.Instance.TableRefresh();
+            IOManager.Instance.RefreshingPlayers();
+            IOManager.Instance.RefreshingTable(table);
 
             StartRound();
         }
 
-        
+
 
         public void StartRound()
         {
             if (UserManager.Instance.Users.Count <= 1)
             {
-                UserManager.Instance.PlayerWin(UserManager.Instance.Users[0]);
+                IOManager.Instance.PlayerWin(UserManager.Instance.Users[0]);
                 return;
             }
-            UserManager.Instance.RoundStart();
-            if(roundType==RoundType.Flop)
+            IOManager.Instance.StartingRound();
+            if (table.RoundType == RoundType.Flop)
             {
                 table.Cards = table.CardDeck.GetFlop();
             }
@@ -75,9 +67,9 @@ namespace Managers
             {
                 table.Cards.Add(table.CardDeck.TopCard());
             }
-            UserManager.Instance.TableRefresh();
-            UserManager.Instance.RefreshUsers();
-            roundType = (RoundType)(((int)roundType + 1) % 3);
+            IOManager.Instance.RefreshingTable(table);
+            IOManager.Instance.RefreshingPlayers();
+            table.RoundType = (RoundType)(((int)table.RoundType + 1) % 3);
         }
 
         public void EndofGame()
@@ -87,74 +79,6 @@ namespace Managers
             table.Players.Clear();
             table.Players.AddRange(UserManager.Instance.Users);
         }
-
-        //public void GameStart()
-        //{
-        //    while (users.Count > 1)
-        //    {
-        //        SolvencyControl();
-        //        for (int i = 0; i < table.Players.Count; i++)
-        //        {
-        //            table.Players[i].Hand = table.CardDeck.GetHand();
-        //        }
-        //        table.Players[currentPlayer].Money -= table.Bank.SmallBlind;
-        //        table.Bank.TableBank += table.Bank.SmallBlind;
-        //        NextPlayer();
-        //        RateToBank(table.Players[currentPlayer]);
-        //        NextPlayer();
-
-
-        //        while (ratePlayers < table.Players.Count)
-        //        {
-        //            //TODO: Разобраться с запрос-ответом
-        //            //RateOfPayer(Table.Players[currentPlayer], answer, raise);       
-        //        }
-
-        //        if (table.Players.Count > 1)
-        //        {
-        //            table.Cards = table.CardDeck.GetFlop();
-        //            //Отдать всем карты
-        //            while (ratePlayers < table.Players.Count)
-        //            {
-        //                //TODO: Разобраться с запрос-ответом
-        //                //RateOfPayer(Table.Players[currentPlayer], answer, raise);       
-        //            }
-        //        }
-
-        //        if (table.Players.Count > 1)
-        //        {
-        //            table.Cards.Add(table.CardDeck.TopCard());
-        //            //Отдать всем Table.Cards
-        //            while (ratePlayers < table.Players.Count)
-        //            {
-        //                //TODO: Разобраться с запрос-ответом
-        //                //RateOfPayer(Table.Players[currentPlayer], answer, raise);       
-        //            }
-        //        }
-
-        //        if (table.Players.Count > 1)
-        //        {
-        //            table.Cards.Add(table.CardDeck.TopCard());
-        //            //Отдать всем Table.Cards
-        //            while (ratePlayers < table.Players.Count)
-        //            {
-        //                //TODO: Разобраться с запрос-ответом
-        //                //RateOfPayer(Table.Players[currentPlayer], answer, raise);       
-        //            }
-        //        }
-
-        //        if (table.Players.Count > 1)
-        //        {
-        //            //TODO: Выбор старшей комбинации, перечисление денег, оповещение
-        //        }
-
-        //        table.Players.Last().Money += table.Bank.TableBank;
-        //        table.Bank.TableBank = 0;
-        //        table.Players.Clear();
-        //        table.Players.AddRange(users);
-        //    }
-
-        //}
 
 
         public void RateToBank(int playerNumber)
@@ -176,7 +100,7 @@ namespace Managers
             {
                 case PlayersCommand.call:
                     RateToBank(playerNumber);
-                    ratePlayers++;
+                    table.RatePlayers++;
                     NextPlayer();
                     break;
                 case PlayersCommand.raise:
@@ -189,7 +113,7 @@ namespace Managers
                     }
                     table.Bank.RaiseRate(raise);
                     RateToBank(playerNumber);
-                    ratePlayers = 1;
+                    table.RatePlayers = 1;
                     NextPlayer();
                     break;
                 case PlayersCommand.fold:
@@ -203,77 +127,10 @@ namespace Managers
 
         public void NextPlayer()
         {
-            table.Players[currentPlayer].IsCurrent = false;
-            currentPlayer = (currentPlayer + 1) % table.Players.Count;
-            table.Players[currentPlayer].IsCurrent = true;
+            table.Players[table.CurrentPlayer].IsCurrent = false;
+            table.CurrentPlayer = (table.CurrentPlayer + 1) % table.Players.Count;
+            table.Players[table.CurrentPlayer].IsCurrent = true;
 
         }
-
-
-        //int getCombination(int[] hand, int[] board)
-        //{
-        //    int[] allCard;
-        //    if ((board == null) || (board.length == 0))
-        //    {
-        //        allCard = new int[hand.length];
-        //        System.arraycopy(hand, 0, allCard, 0, hand.length);
-        //    }
-        //    else 
-        //    {
-        //        allCard = new int[hand.length + board.length];
-        //        System.arraycopy(hand, 0, allCard, 0, hand.length);
-        //        System.arraycopy(board, 0, allCard, hand.length,
-        //        board.length);
-        //    }
-        //    int[] card = new int[allCard.length];
-        //    int[] suite = new int[allCard.length];
-        //    int[] suiteCount = new int[4];
-        //    sortHand(allCard, card, suite, suiteCount);
-        //    if (isRoyalFlush(card, suite, suiteCount) != -1)
-        //    {
-        //        return 117;
-        //    }
-        //    int result = isStraightFlush(card, suite, suiteCount);
-        //    if (result != -1)
-        //    {
-        //        return 104 + result;
-        //    }
-        //    result = isQuads(card);
-        //    if (result != -1)
-        //    {
-        //        return 91 + result;
-        //    }
-        //    result = isFullHouse(card);
-        //    if (result != -1)
-        //    {
-        //        return 78 + result;
-        //    }
-        //    result = isFlush(card, suite, suiteCount);
-        //    if (result != -1)
-        //    {
-        //        return 65 + result;
-        //    }
-        //    result = isStraight(card);
-        //    if (result != -1)
-        //    {
-        //        return 52 + result;
-        //    }
-        //    result = isSet(card);
-        //    if (result != -1)
-        //    {
-        //        return 39 + result;
-        //    }
-        //    result = isTwoPair(card);
-        //    if (result != -1)
-        //    {
-        //        return 26 + result;
-        //    }
-        //    result = isOnePair(card);
-        //    if (result != -1)
-        //    {
-        //        return 13 + result;
-        //    }
-        //    return isHighCard(card);
-        //}
     }
 }
