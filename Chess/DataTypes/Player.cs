@@ -10,12 +10,19 @@ namespace DataTypes
     {
         public string Name { get; set; } = "";
         public int Money { get; set; } = 0;
+        private Action<Player> refresh;
         public Card[] Hand;
 
-        public Player(string name, int money)
+        public Player(string name, int money, Action<Player> refresh)
         {
             Name = name;
             Money = money;
+            this.refresh = refresh;
+        }
+
+        public void Refresh()
+        {
+            refresh(this);
         }
 
     }
