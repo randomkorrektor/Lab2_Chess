@@ -33,6 +33,7 @@
     <Compile Include="app.js" />
     <Compile Include="DataTypes\Bank.js" />
     <Compile Include="DataTypes\Lear.js" />
+    <Compile Include="DataTypes\Rating.js" />
     <Content Include="package.json" />
     <Content Include="README.md" />
   </ItemGroup>
