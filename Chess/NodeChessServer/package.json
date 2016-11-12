@@ -1,0 +1,9 @@
+{
+  "name": "node-chess-server",
+  "version": "0.0.0",
+  "description": "NodeChessServer",
+  "main": "app.js",
+  "author": {
+    "name": "RanKor"
+  }
+}
