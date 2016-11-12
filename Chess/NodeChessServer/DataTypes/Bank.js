@@ -1,5 +1,4 @@
-﻿'use strict';
-class Bank {
+﻿class Bank {
 
     constructor(smallBlind) {
         this.smallBlind = smallBlind;

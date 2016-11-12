@@ -6,6 +6,8 @@ const Card = require('./DataTypes/Card');
 const CardDeck = require('./DataTypes/CardDeck');
 const PlayerCommand = require('./DataTypes/PlayerCommand');
 const Player = require('./DataTypes/Player');
+const RoundType = require('./DataTypes/RoundType');
+const Table = require('./DataTypes/Table');
 
 const bank = new Bank(1);
 console.log(bank);
@@ -23,3 +25,6 @@ console.log(PlayerCommand);
 const player = new Player('test', 10000, (p) => (console.log(p)));
 console.log(player);
 player.Refresh();
+console.log(RoundType);
+const table = new Table(5);
+console.log(table);

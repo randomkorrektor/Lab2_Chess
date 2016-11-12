@@ -38,6 +38,8 @@
     <Compile Include="DataTypes\Player.js" />
     <Compile Include="DataTypes\PlayerCommand.js" />
     <Compile Include="DataTypes\Rating.js" />
+    <Compile Include="DataTypes\RoundType.js" />
+    <Compile Include="DataTypes\Table.js" />
     <Content Include="package.json" />
     <Content Include="README.md" />
   </ItemGroup>
