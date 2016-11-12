@@ -88,74 +88,6 @@ namespace Managers
             table.Players.AddRange(UserManager.Instance.Users);
         }
 
-        //public void GameStart()
-        //{
-        //    while (users.Count > 1)
-        //    {
-        //        SolvencyControl();
-        //        for (int i = 0; i < table.Players.Count; i++)
-        //        {
-        //            table.Players[i].Hand = table.CardDeck.GetHand();
-        //        }
-        //        table.Players[currentPlayer].Money -= table.Bank.SmallBlind;
-        //        table.Bank.TableBank += table.Bank.SmallBlind;
-        //        NextPlayer();
-        //        RateToBank(table.Players[currentPlayer]);
-        //        NextPlayer();
-
-
-        //        while (ratePlayers < table.Players.Count)
-        //        {
-        //            //TODO: Разобраться с запрос-ответом
-        //            //RateOfPayer(Table.Players[currentPlayer], answer, raise);       
-        //        }
-
-        //        if (table.Players.Count > 1)
-        //        {
-        //            table.Cards = table.CardDeck.GetFlop();
-        //            //Отдать всем карты
-        //            while (ratePlayers < table.Players.Count)
-        //            {
-        //                //TODO: Разобраться с запрос-ответом
-        //                //RateOfPayer(Table.Players[currentPlayer], answer, raise);       
-        //            }
-        //        }
-
-        //        if (table.Players.Count > 1)
-        //        {
-        //            table.Cards.Add(table.CardDeck.TopCard());
-        //            //Отдать всем Table.Cards
-        //            while (ratePlayers < table.Players.Count)
-        //            {
-        //                //TODO: Разобраться с запрос-ответом
-        //                //RateOfPayer(Table.Players[currentPlayer], answer, raise);       
-        //            }
-        //        }
-
-        //        if (table.Players.Count > 1)
-        //        {
-        //            table.Cards.Add(table.CardDeck.TopCard());
-        //            //Отдать всем Table.Cards
-        //            while (ratePlayers < table.Players.Count)
-        //            {
-        //                //TODO: Разобраться с запрос-ответом
-        //                //RateOfPayer(Table.Players[currentPlayer], answer, raise);       
-        //            }
-        //        }
-
-        //        if (table.Players.Count > 1)
-        //        {
-        //            //TODO: Выбор старшей комбинации, перечисление денег, оповещение
-        //        }
-
-        //        table.Players.Last().Money += table.Bank.TableBank;
-        //        table.Bank.TableBank = 0;
-        //        table.Players.Clear();
-        //        table.Players.AddRange(users);
-        //    }
-
-        //}
-
 
         public void RateToBank(int playerNumber)
         {
@@ -208,6 +140,8 @@ namespace Managers
             table.Players[currentPlayer].IsCurrent = true;
 
         }
+
+        
 
 
         //int getCombination(int[] hand, int[] board)

@@ -43,6 +43,7 @@
     <Compile Include="Bank.cs" />
     <Compile Include="Card.cs" />
     <Compile Include="CardDeck.cs" />
+    <Compile Include="Combinations.cs" />
     <Compile Include="Lear.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="PlayersCommand.cs" />
