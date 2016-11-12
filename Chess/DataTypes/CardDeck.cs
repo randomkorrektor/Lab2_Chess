@@ -13,9 +13,9 @@ namespace DataTypes
 
         public CardDeck()
         {
-            for(int i=0; i<4; i++)
+            for (int i = 0; i < 4; i++)
             {
-                for(int j=0; j<13; j++)
+                for (int j = 0; j < 13; j++)
                 {
                     Deck.Add(new Card((Lear)i, (Rating)j));
                 }
@@ -52,7 +52,7 @@ namespace DataTypes
 
         public List<Card> GetFlop()
         {
-            return new List<Card> { TopCard(), TopCard(), TopCard()};
+            return new List<Card> { TopCard(), TopCard(), TopCard() };
         }
     }
 }
