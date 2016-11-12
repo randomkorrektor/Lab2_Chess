@@ -4,6 +4,8 @@ const Lear = require('./DataTypes/Lear');
 const Rating = require('./DataTypes/Rating');
 const Card = require('./DataTypes/Card');
 const CardDeck = require('./DataTypes/CardDeck');
+const PlayerCommand = require('./DataTypes/PlayerCommand');
+const Player = require('./DataTypes/Player');
 
 const bank = new Bank(1);
 console.log(bank);
@@ -17,3 +19,7 @@ console.log(deck.TopCard());
 console.log(deck.Discard());
 console.log(deck.GetHand());
 console.log(deck.GetFloop());
+console.log(PlayerCommand);
+const player = new Player('test', 10000, (p) => (console.log(p)));
+console.log(player);
+player.Refresh();

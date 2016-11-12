@@ -35,6 +35,8 @@
     <Compile Include="DataTypes\Card.js" />
     <Compile Include="DataTypes\CardDeck.js" />
     <Compile Include="DataTypes\Lear.js" />
+    <Compile Include="DataTypes\Player.js" />
+    <Compile Include="DataTypes\PlayerCommand.js" />
     <Compile Include="DataTypes\Rating.js" />
     <Content Include="package.json" />
     <Content Include="README.md" />
