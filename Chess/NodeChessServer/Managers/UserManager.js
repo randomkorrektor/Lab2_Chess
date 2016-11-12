@@ -5,7 +5,7 @@ class UserManager {
         UserManager.users.push(new Player(name, 10000, refresh));
         switch (Users.Count) {
             case 1:
-                Users.Last().IsCurrent = true;
+                UserManger.users..IsCurrent = true;
                 break;
             case 2:
                 IOManager.Instance.StartTimer();
