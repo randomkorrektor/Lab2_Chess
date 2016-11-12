@@ -40,11 +40,13 @@
     <Compile Include="DataTypes\Rating.js" />
     <Compile Include="DataTypes\RoundType.js" />
     <Compile Include="DataTypes\Table.js" />
+    <Compile Include="Managers\UserManager.js" />
     <Content Include="package.json" />
     <Content Include="README.md" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="DataTypes\" />
+    <Folder Include="Managers\" />
     <Folder Include="typings\" />
     <Folder Include="typings\globals\" />
     <Folder Include="typings\globals\node\" />

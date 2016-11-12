@@ -132,11 +132,6 @@ namespace Managers
             table.Players[table.CurrentPlayer].IsCurrent = true;
 
         }
-<<<<<<< HEAD
-
-        
-
-
         //int getCombination(int[] hand, int[] board)
         //{
         //    int[] allCard;
@@ -202,7 +197,5 @@ namespace Managers
         //    }
         //    return isHighCard(card);
         //}
-=======
->>>>>>> 4b5a8a3008cfcd19b26990ee6134c22d4e00b7b0
     }
 }
