@@ -8,66 +8,58 @@ using System.Threading.Tasks;
 
 namespace Managers
 {
-    public class GameManager
+    class GameManager
     {
         public static GameManager Instance = new GameManager();
 
         public Table table = new Table(10);
 
-        private GameManager()
-        {
-            
-        }
+        private GameManager() { }
 
 
-        int ratePlayers = 0;
-        public int Button = 0;
-        int currentPlayer = 1;
 
-        int gameNumber = 0;
-        RoundType roundType = RoundType.Flop;
 
         public void StartGame()
         {
-            gameNumber++;
+            table.GameNumber++;
             UserManager.Instance.SolvencyControl(table.Bank.BigBlind);
-            if (UserManager.Instance.Users.Count<=1)
+            if (UserManager.Instance.Users.Count <= 1)
             {
-                UserManager.Instance.PlayerWin(UserManager.Instance.Users[0]);
+                IOManager.Instance.PlayerWin(UserManager.Instance.Users[0]);
                 return;
             }
-            UserManager.Instance.GameStart();
+            IOManager.Instance.StartingGame();
 
             for (int i = 0; i < table.Players.Count; i++)
             {
                 table.Players[i].Hand = table.CardDeck.GetHand();
             }
 
-            table.Players[currentPlayer].Money -= table.Bank.SmallBlind;
+            table.Players[table.CurrentPlayer].Money -= table.Bank.SmallBlind;
 
             table.Bank.TableBank += table.Bank.SmallBlind;
 
             NextPlayer();
-            RateToBank(currentPlayer);
+            RateToBank(table.CurrentPlayer);
             NextPlayer();
 
-            UserManager.Instance.RefreshUsers();
-            UserManager.Instance.TableRefresh();
+            IOManager.Instance.RefreshingPlayers();
+            IOManager.Instance.RefreshingTable(table);
 
             StartRound();
         }
 
-        
+
 
         public void StartRound()
         {
             if (UserManager.Instance.Users.Count <= 1)
             {
-                UserManager.Instance.PlayerWin(UserManager.Instance.Users[0]);
+                IOManager.Instance.PlayerWin(UserManager.Instance.Users[0]);
                 return;
             }
-            UserManager.Instance.RoundStart();
-            if(roundType==RoundType.Flop)
+            IOManager.Instance.StartingRound();
+            if (table.RoundType == RoundType.Flop)
             {
                 table.Cards = table.CardDeck.GetFlop();
             }
@@ -75,9 +67,9 @@ namespace Managers
             {
                 table.Cards.Add(table.CardDeck.TopCard());
             }
-            UserManager.Instance.TableRefresh();
-            UserManager.Instance.RefreshUsers();
-            roundType = (RoundType)(((int)roundType + 1) % 3);
+            IOManager.Instance.RefreshingTable(table);
+            IOManager.Instance.RefreshingPlayers();
+            table.RoundType = (RoundType)(((int)table.RoundType + 1) % 3);
         }
 
         public void EndofGame()
@@ -108,7 +100,7 @@ namespace Managers
             {
                 case PlayersCommand.call:
                     RateToBank(playerNumber);
-                    ratePlayers++;
+                    table.RatePlayers++;
                     NextPlayer();
                     break;
                 case PlayersCommand.raise:
@@ -121,7 +113,7 @@ namespace Managers
                     }
                     table.Bank.RaiseRate(raise);
                     RateToBank(playerNumber);
-                    ratePlayers = 1;
+                    table.RatePlayers = 1;
                     NextPlayer();
                     break;
                 case PlayersCommand.fold:
@@ -135,11 +127,12 @@ namespace Managers
 
         public void NextPlayer()
         {
-            table.Players[currentPlayer].IsCurrent = false;
-            currentPlayer = (currentPlayer + 1) % table.Players.Count;
-            table.Players[currentPlayer].IsCurrent = true;
+            table.Players[table.CurrentPlayer].IsCurrent = false;
+            table.CurrentPlayer = (table.CurrentPlayer + 1) % table.Players.Count;
+            table.Players[table.CurrentPlayer].IsCurrent = true;
 
         }
+<<<<<<< HEAD
 
         
 
@@ -209,5 +202,7 @@ namespace Managers
         //    }
         //    return isHighCard(card);
         //}
+=======
+>>>>>>> 4b5a8a3008cfcd19b26990ee6134c22d4e00b7b0
     }
 }

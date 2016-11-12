@@ -8,6 +8,13 @@ namespace DataTypes
 {
     public class Table
     {
+        public int GameNumber = 0;
+        public RoundType RoundType = RoundType.Flop;
+        public int Button = 0;
+        public int CurrentPlayer = 1;
+        public int RatePlayers = 0;
+
+
         public List<Player> Players = new List<Player>();
         public List<Card> Cards = new List<Card>();
         public CardDeck CardDeck = new CardDeck();
