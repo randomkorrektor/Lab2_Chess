@@ -7,9 +7,13 @@
                 lears[card.lear]++;
             }
         }
-        if (lears.find(u=> (u > 4)))
-            return 10;
-        return -1;
+        if (lears.find(u => (u > 4))) {
+            return {
+                code: 10
+            };
+        }
+
+        return null;
     }
 
     IsStritFlush(cards) {
@@ -21,10 +25,16 @@
                 lears[card.lear].count++;
             }
         }
-        if (lears.find(u => (u.count > 4)))
-            return 9
-        return -1;
+        let num = lears.find(u => (u.count > 4));
+        if (num) {
+            return {
+                code: 9,
+                topCard: lears[num].rating + 4
+            };
+        }
+
+        return null;
     }
-    
+
 
 }
