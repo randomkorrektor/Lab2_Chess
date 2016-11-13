@@ -36,5 +36,35 @@
         return null;
     }
 
+    IsFullHouse(cards) {
+        const sets = {};
+        for (const card of cards) {
+            if (sets[card.rating] == null) {
+                sets[card.rating] = 1;
+            } else {
+                sets[card.rating]++;
+            }
+        }
+        let haveTwo = false;
+        let topCard = null;
 
+        for (const key in sets) {
+            if (topCard == null && sets[key] == 3) {
+                topCard = key;
+            }
+            if (key != topCard && !haveTwo && sets[key] > 1) {
+                haveTwo = true;
+            }
+            if (topCard != null && haveTwo) {
+                break;
+            }
+        }
+
+        if (topCard && haveTwo) {
+            return {
+                code: 7,
+                topCard: topCard
+            }
+        }
+    }
 }
