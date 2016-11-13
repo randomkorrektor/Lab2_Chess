@@ -182,4 +182,17 @@
         }
         return null;
     }
+
+    IsTopCard(cards) {
+        let topCard = cards[0].rating;
+        let kicker = topCard;
+        if (num) {
+            return {
+                code: 1,
+                topCard,
+                kicker
+            };
+        }
+        return null;
+    }
 }
