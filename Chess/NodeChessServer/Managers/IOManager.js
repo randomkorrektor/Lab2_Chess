@@ -5,8 +5,8 @@ class IOManager {
         this.userManager = null;
     }
 
-    AddUser(name, refresh, lose, win, step) {
-        return this.userManager.AddUser(name, refresh, lose, win, step);
+    AddUser(name, refresh, lose, win, step, info) {
+        return this.userManager.AddUser(name, refresh, lose, win, step, info);
     }
 
     StartTimer() {
@@ -33,6 +33,10 @@ class IOManager {
 
     Win(player) {
         player.win();
+    }
+
+    Info(player, msg) {
+        player.info(msg);
     }
 
     PlayerStep(player,num) {

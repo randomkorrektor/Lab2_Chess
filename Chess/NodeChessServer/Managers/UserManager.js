@@ -6,9 +6,9 @@ class UserManager {
         this.startCache = startCache;
         this.users = [];
     }
-    AddUser(name, refresh, lose, win, step) {
+    AddUser(name, refresh, lose, win, step, info) {
         if (this.ioManager.timerIsEnded != true) {
-            this.users.push(new Player(name, this.startCache, refresh, lose, win, step));
+            this.users.push(new Player(name, this.startCache, refresh, lose, win, step, info));
             this.ioManager.RefreshUserList(this.users);
             switch (this.users.length) {
                 case 1:

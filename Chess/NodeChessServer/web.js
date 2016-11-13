@@ -17,6 +17,8 @@ const init = (ioManager) => {
                 socket.emit('win');
             }, (num) => {
                 socket.emit('step', num);
+            }, (msg) => {
+                socket.emit('info', msg);
             });
         });
         socket.on('rate',  (obj) => {

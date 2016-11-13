@@ -1,4 +1,5 @@
-﻿class Combinator {
+﻿'use strict';
+class Combinator {
 
     static IsRoyalFlush(cards) {
         let lears = [0, 0, 0, 0];
