@@ -86,7 +86,7 @@
         return null;
     }
 
-    IsFlush() {
+    IsFlush(cards) {
         let lears = [{ count: 0 }, { count: 0 }, { count: 0 }, { count: 0 }];
         for (const card of cards) {
             lears[card.lear].count++;
@@ -105,7 +105,7 @@
     }
 
 
-    IsSet() {
+    IsSet(cards) {
         const sets = [];
         for (const card in cards) {
             if (sets[card.rating] == null)
@@ -163,5 +163,23 @@
         return null;
     }
 
-
+    IsPair(cards) {
+        const sets = [];
+        for (const card in cards) {
+            if (sets[card.rating] == null)
+                sets[card.rating] = 1;
+            else
+                sets[card.rating]++;
+        }
+        let topCard = sets.find(u => (u > 1));
+        let kicker = sets.find(u => (u == 1));
+        if (num) {
+            return {
+                code: 2,
+                topCard,
+                kicker
+            };
+        }
+        return null;
+    }
 }
