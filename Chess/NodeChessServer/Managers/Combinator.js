@@ -43,7 +43,7 @@
             else
                 sets[card.rating]++;
         }
-        let num = sets.find(u => (u > 4));
+        let num = sets.find(u => (u > 3));
         if (num) {
             return {
                 code: 8,
@@ -83,6 +83,29 @@
                 topCard: topCard
             }
         }
+    }
+
+    IsStraight(cards) {
+        let counter = {
+            last: 15,
+            count: 0
+        };
+        for (const card of cards) {
+            if (cards.rating + 1 == counter.last) {
+                counter.count++;
+                counter.last = card.rating;
+            }
+            else if (cards.rating != counter.last) {
+                counter.count = 1;
+                counter.last = card.rating;
+            }
+            if (counter.count > 4)
+                return {
+                    code: 5,
+                    topCard: counter.last + 4
+                };
+        }
+        return null;
     }
 
 
