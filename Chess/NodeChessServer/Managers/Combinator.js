@@ -83,8 +83,25 @@
                 topCard: topCard
             }
         }
+        return null;
     }
 
-
+    IsFlush() {
+        let lears = [{ count: 0 }, { count: 0 }, { count: 0 }, { count: 0 }];
+        for (const card of cards) {
+            lears[card.lear].count++;
+            if (lears[card.lear].top == null) {
+                lears[card.lear] = card.rating;
+            }
+        }
+        let num = lears.find(u => (u > 4));
+        if (num) {
+            return {
+                code: 6,
+                topCard: lears[num]
+            };
+        }
+        return null;
+    }
 
 }
