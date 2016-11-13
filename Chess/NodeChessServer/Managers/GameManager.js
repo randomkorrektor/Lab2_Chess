@@ -18,8 +18,7 @@ class GameManager {
         }
         this.ioManager.StartingGame();
 
-        for (let player of this.table.Players)
-        {
+        for (let player of this.table.Players) {
             player.Hand = this.table.CardDeck.GetHand();
         }
 
@@ -74,7 +73,7 @@ class GameManager {
         }
     }
 
-    public string RateOfPayer(playerNumber, command, raise) {
+    RateOfPayer(playerNumber, command, raise) {
         switch (command) {
             case PlayersCommand.call:
                 this.RateToBank(playerNumber);
@@ -82,8 +81,7 @@ class GameManager {
                 this.NextPlayer();
                 break;
             case PlayersCommand.raise:
-                for (let player of this.table.Players)
-                {
+                for (let player of this.table.Players) {
                     if (this.table.players[i].money < this.table.bank.rate + raise) {
                         return "Player" + (i + 1) + "is not enough money!";
                     }
@@ -109,3 +107,5 @@ class GameManager {
 
     }
 }
+
+module.exports = GameManager;
