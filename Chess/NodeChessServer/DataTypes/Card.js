@@ -1,4 +1,5 @@
-﻿class Card {
+﻿'use strict';
+class Card {
     constructor(lear, rating) {
         this.lear = lear;
         this.rating = rating;

@@ -60,14 +60,55 @@
   </ul>
   Counter :
   <div id="timer"></div>
+  <div id="table">
+    Bank:
+    <div id="bank"></div>
+    Table:
+    <div id="cards"> </div>
+  </div>
+  Hand:
+  <div id="hand"></div>
+  Money:
+  <div id="money"></div>
+  <button onclick="call()">call</button>
   <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
   <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
   <script>
       'use strict';
       var socket = io('ws://192.168.0.23:3000');
-
+      const lears = [
+        "&hearts;",
+        "&spades;",
+        "&clubs;",
+        "&diams;",
+        
+      ]
+      const ratings = [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10",
+        "J",
+        "Q",
+        "K",
+        "A"
+      ];
+      let playerNumber=0; 
       function addPlayer(){
         socket.emit('add user', $('#mainPlayerName').val());
+      }
+      function call(){
+        socket.emit('rate',{
+          playerNumber,
+          command: 0
+        });
       }
       
       socket.on('refresh user list', function(players){
@@ -80,10 +121,37 @@
         var time = Math.floor(ticks/600)+":"+ Math.floor(ticks%600/10)+"."+ Math.floor(ticks%10);
         $('#timer').text(time);
       });
-      socket.on('timer end', function(ticks){
-        $('#timer').text(0);
-        alert('Game was begin');
+      socket.on('lose', function(ticks){
+        alert('you are lose');
       });
+      socket.on('win', function(ticks){
+        alert('you are win');
+      });
+      
+      socket.on('start game', function(ticks){
+      });
+      socket.on('start round', function(ticks){
+      });
+      socket.on('step', function(num){
+        playerNumber = num;
+        alert('your step')
+      });
+      
+      socket.on('refresh player', function(player){
+          $("#hand").empty();
+        for(let card of player.hand){
+          $("<div/>").appendTo("#hand").html(ratings[card.rating]+lears[card.lear])
+        }
+          $("#money").text(player.money)
+      });
+      socket.on('refresh table', function(table){
+          $("#cards").empty();
+        $("#bank").text(table.bank.tableBank);
+        for(let card of table.cards){
+          $("<div/>").appendTo("#cards").html(ratings[card.rating]+lears[card.lear])
+        }
+      });
+      
     </script>
 </body>
 

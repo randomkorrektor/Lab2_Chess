@@ -1,4 +1,5 @@
-﻿const Card = require('./Card');
+﻿'use strict';
+const Card = require('./Card');
 
 class CardDeck {
     constructor() {
@@ -34,7 +35,7 @@ class CardDeck {
         ];
     }
 
-    GetFloop() {
+    GetFlop() {
         return [
             this.TopCard(),
             this.TopCard(),

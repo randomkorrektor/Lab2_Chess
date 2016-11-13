@@ -1,4 +1,5 @@
-﻿class Bank {
+﻿'use strict';
+class Bank {
 
     constructor(smallBlind) {
         this.smallBlind = smallBlind;
@@ -7,7 +8,7 @@
     }
 
     get bigBlind() {
-        return this.smallBlind;
+        return this.smallBlind*2;
     }
 
     SetSmallBlind(smallBlind) {

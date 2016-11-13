@@ -1,4 +1,4 @@
-﻿
+﻿'use strict';
 
 const RoundType = require('./RoundType');
 const CardDeck = require('./CardDeck');

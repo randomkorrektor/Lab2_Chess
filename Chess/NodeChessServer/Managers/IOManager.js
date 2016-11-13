@@ -5,8 +5,8 @@ class IOManager {
         this.userManager = null;
     }
 
-    AddUser(name, refresh) {
-        return this.userManager.AddUser(name, refresh);
+    AddUser(name, refresh, lose, win, step) {
+        return this.userManager.AddUser(name, refresh, lose, win, step);
     }
 
     StartTimer() {
@@ -15,7 +15,7 @@ class IOManager {
     }
     TimerTickHandler() {
         this.timerTicks++;
-        if (this.timerTicks >= 1200) {
+        if (this.timerTicks >= 50) {
             this.TimerEndHandler();
         }
         this.TimerTick(this.timerTicks);
@@ -24,11 +24,41 @@ class IOManager {
         this.timerIsEnded = true;
 
         clearInterval(this.timer);
-        this.TemerEnd();
+        this.TimerEnd();
     }
 
     Lose(player) {
         player.lose();
+    }
+
+    Win(player) {
+        player.win();
+    }
+
+    PlayerStep(player,num) {
+        player.step(num);
+    }
+
+    RefreshPlayers(players) {
+        for (const player of players) {
+            player.refresh();
+        }
+    }
+
+    StartGameHandler() {
+        this.StartGame();
+    }
+
+    StartRoundHandler() {
+        this.StartRound();
+    }
+
+    RefreshTable(table) {
+        this.RefreshTableHandler(table);
+    }
+
+    RateOfPlayer(playerNumber, command, raise) {
+        this.gameManager.RateOfPlayer(playerNumber, command, raise);
     }
 }
 

@@ -1,4 +1,5 @@
-﻿const express = require('express');
+﻿'use strict';
+const express = require('express');
 const http = require('http');
 const io = require('socket.io');
 const init = (ioManager) => {
@@ -12,7 +13,14 @@ const init = (ioManager) => {
                 socket.emit('refresh player', player);
             }, () => {
                 socket.emit('lose');
+            }, () => {
+                socket.emit('win');
+            }, (num) => {
+                socket.emit('step', num);
             });
+        });
+        socket.on('rate',  (obj) => {
+            ioManager.RateOfPlayer(obj.playerNumber, obj.command, obj.raise);
         });
     });
 
@@ -25,10 +33,17 @@ const init = (ioManager) => {
         ioClient.emit('timer tick', ticks);
     };
 
-    ioManager.TemerEnd = () => {
-        ioClient.emit('timer end');
+    ioManager.StartGame = () => {
+        ioClient.emit('start game');
     };
 
+    ioManager.StartRound = () => {
+        ioClient.emit('start round');
+    };
+
+    ioManager.RefreshTableHandler = (table) => {
+        ioClient.emit('refresh table', table);
+    };
 
 
     httpClient.listen(3000, function () {

@@ -1,13 +1,14 @@
 ﻿'use strict';
 const Player = require('../DataTypes/Player');
 class UserManager {
-    constructor(ioManager) {
+    constructor(ioManager, startCache) {
         this.ioManager = ioManager;
+        this.startCache = startCache;
         this.users = [];
     }
-    AddUser(name, refresh, lose) {
+    AddUser(name, refresh, lose, win, step) {
         if (this.ioManager.timerIsEnded != true) {
-            this.users.push(new Player(name, 10000, refresh, lose));
+            this.users.push(new Player(name, this.startCache, refresh, lose, win, step));
             this.ioManager.RefreshUserList(this.users);
             switch (this.users.length) {
                 case 1:
