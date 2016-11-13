@@ -9,6 +9,7 @@
         this.RefreshTable = null;
         this.PlayerWin = null;
         this.userManager = null;
+        this.gameManager = null;
     }
 
     StartTimer() {
@@ -35,7 +36,7 @@
     }
 
     RateUser(player, com, rise) {
-        GameManager.Instance.RateOfPayer(player, com, rise);
+        this.gameManager.Instance.RateOfPayer(player, com, rise);
     }
 
     StartingGame() {
@@ -51,7 +52,7 @@
     }
 
     RefreshingPlayers() {
-        var users = this.UserManager.Users;
+        var users = this.userManager.Users;
 
         for (let user of users) {
             user.Refresh();
