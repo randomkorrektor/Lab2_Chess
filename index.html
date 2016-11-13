@@ -1,0 +1,90 @@
+<!doctype html>
+<html>
+
+<head>
+  <title>Socket.IO chat</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font: 13px Helvetica, Arial;
+    }
+    
+    form {
+      background: #000;
+      padding: 3px;
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+    }
+    
+    form input {
+      border: 0;
+      padding: 10px;
+      width: 90%;
+      margin-right: .5%;
+    }
+    
+    form button {
+      width: 9%;
+      background: rgb(130, 224, 255);
+      border: none;
+      padding: 10px;
+    }
+    
+    #messages {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+    }
+    
+    #messages li {
+      padding: 5px 10px;
+    }
+    
+    #messages li:nth-child(odd) {
+      background: #eee;
+    }
+  </style>
+</head>
+
+<body>
+  <input placeholder="name" id="mainPlayerName" />
+  <button onclick="addPlayer()">add new user</button>
+  <ul id="messages">
+
+  </ul>
+  Counter :
+  <div id="timer"></div>
+  <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+  <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+  <script>
+      'use strict';
+      var socket = io('ws://192.168.0.23:3000');
+
+      function addPlayer(){
+        socket.emit('add user', $('#mainPlayerName').val());
+      }
+      
+      socket.on('refresh user list', function(players){
+        $('#messages').empty();
+        for(var player of players)
+          $('#messages').append($('<li>').text(player.name));
+      });
+      
+      socket.on('timer tick', function(ticks){
+        var time = Math.floor(ticks/600)+":"+ Math.floor(ticks%600/10)+"."+ Math.floor(ticks%10);
+        $('#timer').text(time);
+      });
+      socket.on('timer end', function(ticks){
+        $('#timer').text(0);
+        alert('Game was begin');
+      });
+    </script>
+</body>
+
+</html>
