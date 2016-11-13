@@ -12,7 +12,6 @@
                 code: 10
             };
         }
-
         return null;
     }
 
@@ -32,9 +31,27 @@
                 topCard: lears[num].rating + 4
             };
         }
-
         return null;
     }
+
+
+    IsSquare(cards) {
+        const sets = [];
+        for (const card in cards) {
+            if (sets[card.rating] == null)
+                sets[card.rating] = 1;
+            else
+                sets[card.rating]++;
+        }
+        let num = sets.find(u => (u > 4));
+        if (num) {
+            return {
+                code: 8,
+                topCard: num
+            };
+        }
+        return null;
+
 
 
 }
