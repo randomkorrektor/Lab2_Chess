@@ -83,7 +83,46 @@
                 topCard: topCard
             }
         }
+        return null;
     }
+
+    IsFlush(cards) {
+        let lears = [{ count: 0 }, { count: 0 }, { count: 0 }, { count: 0 }];
+        for (const card of cards) {
+            lears[card.lear].count++;
+            if (lears[card.lear].top == null) {
+                lears[card.lear] = card.rating;
+            }
+        }
+        let num = lears.find(u => (u > 4));
+        if (num) {
+            return {
+                code: 6,
+                topCard: lears[num]
+            };
+        }
+        return null;
+    }
+
+
+    IsSet(cards) {
+        const sets = [];
+        for (const card in cards) {
+            if (sets[card.rating] == null)
+                sets[card.rating] = 1;
+            else
+                sets[card.rating]++;
+        }
+        let num = sets.find(u => (u > 2));
+        if (num) {
+            return {
+                code: 4,
+                topCard: num
+            };
+        }
+        return null;
+    }
+
 
     IsStraight(cards) {
         let counter = {
@@ -108,6 +147,76 @@
         return null;
     }
 
+    IsTwoPairs(cards) {
 
 
+        const sets = {};
+        for (const card of cards) {
+            if (sets[card.rating] == null) {
+                sets[card.rating] = 1;
+            } else {
+                sets[card.rating]++;
+            }
+        }
+
+        let haveTwo = false;
+        let topCard = null;
+        let kicker = null;
+        for (const key in sets) {
+            if (topCard == null && sets[key] == 2) {
+                topCard = key;
+            }
+            if (key != topCard && !haveTwo && sets[key] > 1) {
+                haveTwo = true;
+            }
+            if (sets[key] == 1) {
+                kicker = key;
+            }
+            if (topCard != null && haveTwo && kicker != null) {
+                break;
+            }
+        }
+
+        if (topCard && haveTwo) {
+            return {
+                code: 3,
+                topCard: topCard,
+                kicker
+            }
+        }
+        return null;
+    }
+
+    IsPair(cards) {
+        const sets = [];
+        for (const card in cards) {
+            if (sets[card.rating] == null)
+                sets[card.rating] = 1;
+            else
+                sets[card.rating]++;
+        }
+        let topCard = sets.find(u => (u > 1));
+        let kicker = sets.find(u => (u == 1));
+        if (num) {
+            return {
+                code: 2,
+                topCard,
+                kicker
+            };
+        }
+        return null;
+    }
+
+    IsTopCard(cards) {
+        let topCard = cards[0].rating;
+        let kicker = topCard;
+        if (num) {
+            return {
+                code: 1,
+                topCard,
+                kicker
+            };
+        }
+        return null;
+    }
 }
