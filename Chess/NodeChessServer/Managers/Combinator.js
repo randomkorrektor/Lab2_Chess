@@ -1,6 +1,6 @@
-﻿class combinator {
+﻿class Combinator {
 
-    IsRoyalFlush(cards) {
+    static IsRoyalFlush(cards) {
         let lears = [0, 0, 0, 0];
         for (const card of cards) {
             if (card.rating > 9) {
@@ -15,7 +15,7 @@
         return null;
     }
 
-    IsStritFlush(cards) {
+    static IsStritFlush(cards) {
         let lears = [{ rating: null, count: 0 }, { rating: null, count: 0 }, { rating: null, count: 0 }, { rating: null, count: 0 }];
         for (const card of cards) {
             if (lears[card.lear].rating == null ||
@@ -35,7 +35,7 @@
     }
 
 
-    IsSquare(cards) {
+    static IsSquare(cards) {
         const sets = [];
         for (const card in cards) {
             if (sets[card.rating] == null)
@@ -54,7 +54,7 @@
     }
 
 
-    IsFullHouse(cards) {
+    static IsFullHouse(cards) {
         const sets = {};
         for (const card of cards) {
             if (sets[card.rating] == null) {
@@ -86,7 +86,7 @@
         return null;
     }
 
-    IsFlush(cards) {
+    static IsFlush(cards) {
         let lears = [{ count: 0 }, { count: 0 }, { count: 0 }, { count: 0 }];
         for (const card of cards) {
             lears[card.lear].count++;
@@ -105,7 +105,7 @@
     }
 
 
-    IsSet(cards) {
+    static IsSet(cards) {
         const sets = [];
         for (const card in cards) {
             if (sets[card.rating] == null)
@@ -124,7 +124,7 @@
     }
 
 
-    IsStraight(cards) {
+    static IsStraight(cards) {
         let counter = {
             last: 15,
             count: 0
@@ -147,7 +147,7 @@
         return null;
     }
 
-    IsTwoPairs(cards) {
+    static IsTwoPairs(cards) {
 
 
         const sets = {};
@@ -187,7 +187,7 @@
         return null;
     }
 
-    IsPair(cards) {
+    static IsPair(cards) {
         const sets = [];
         for (const card in cards) {
             if (sets[card.rating] == null)
@@ -207,7 +207,7 @@
         return null;
     }
 
-    IsTopCard(cards) {
+    static IsTopCard(cards) {
         let topCard = cards[0].rating;
         let kicker = topCard;
         if (num) {
@@ -219,4 +219,18 @@
         }
         return null;
     }
+    
+    static FindCombination(cards) {
+        carts.sort((a, b) => (b.rating - a.rating));
+        return Combinator.IsRoyalFlush(cards) ||
+            Combinator.IsStritFlush(cards) ||
+            Combinator.IsSquare(cards) ||
+            Combinator.IsFullHouse(cards) ||
+            Combinator.IsFlush(cards) ||
+            Combinator.IsSet(cards) ||
+            Combinator.IsStraight(cards) ||
+            Combinator.IsTwoPairs(cards) ||
+            Combinator.IsTopCard(cards);
+    }
+
 }
