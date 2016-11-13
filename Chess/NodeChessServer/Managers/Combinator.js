@@ -122,4 +122,46 @@
         }
         return null;
     }
+
+    IsTwoPairs(cards) {
+
+
+        const sets = {};
+        for (const card of cards) {
+            if (sets[card.rating] == null) {
+                sets[card.rating] = 1;
+            } else {
+                sets[card.rating]++;
+            }
+        }
+
+        let haveTwo = false;
+        let topCard = null;
+        let kicker = null;
+        for (const key in sets) {
+            if (topCard == null && sets[key] == 2) {
+                topCard = key;
+            }
+            if (key != topCard && !haveTwo && sets[key] > 1) {
+                haveTwo = true;
+            }
+            if (sets[key] == 1) {
+                kicker = key;
+            }
+            if (topCard != null && haveTwo && kicker != null) {
+                break;
+            }
+        }
+
+        if (topCard && haveTwo) {
+            return {
+                code: 3,
+                topCard: topCard,
+                kicker
+            }
+        }
+        return null;
+    }
+
+
 }
