@@ -43,7 +43,7 @@
             else
                 sets[card.rating]++;
         }
-        let num = sets.find(u => (u > 4));
+        let num = sets.find(u => (u > 3));
         if (num) {
             return {
                 code: 8,
@@ -104,4 +104,22 @@
         return null;
     }
 
+
+    IsSet() {
+        const sets = [];
+        for (const card in cards) {
+            if (sets[card.rating] == null)
+                sets[card.rating] = 1;
+            else
+                sets[card.rating]++;
+        }
+        let num = sets.find(u => (u > 2));
+        if (num) {
+            return {
+                code: 4,
+                topCard: num
+            };
+        }
+        return null;
+    }
 }
