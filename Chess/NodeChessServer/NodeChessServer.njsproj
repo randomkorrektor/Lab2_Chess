@@ -40,6 +40,7 @@
     <Compile Include="DataTypes\Rating.js" />
     <Compile Include="DataTypes\RoundType.js" />
     <Compile Include="DataTypes\Table.js" />
+    <Compile Include="Managers\Combinator.js" />
     <Compile Include="Managers\UserManager.js" />
     <Compile Include="Managers\GameManager.js" />
     <Content Include="package.json" />
