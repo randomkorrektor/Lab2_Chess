@@ -68,13 +68,13 @@ class GameManager {
                     this.table.ratePlayers++;
                     break;
                 case PlayersCommand.raise:
-                    for (let player of this.table.Players) {
-                        if (this.table.player.money < this.table.bank.rate + raise) {
+                    for (let player of this.table.players) {
+                        if (player.money < parseInt(this.table.bank.rate) + parseInt(raise)) {
                             this.ioManager.info(this.table.players[playerNumber], `Player ${player.name} is not enough money!`);
                             return;
                         }
                     }
-                    this.table.bank.RaiseRate(raise);
+                    this.table.bank.RaiseRate(parseInt(raise));
                     this.RateToBank(playerNumber);
                     this.table.ratePlayers = 1;
                     break;
