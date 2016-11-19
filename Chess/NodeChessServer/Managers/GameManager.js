@@ -144,6 +144,7 @@ class GameManager {
         this.table.roundType = ((this.table.roundType + 1) % 4);
         this.table.currentPlayer = (this.table.button);
         this.table.ratePlayers = 0;
+        this.table.bank.rate = 0;
         this.NextPlayer();
     }
     RemoveLosers() {
