@@ -38,7 +38,6 @@ class GameManager {
         this.ioManager.RefreshPlayers(this.table.players);
         this.ioManager.RefreshTable(this.table);
         this.ioManager.StartGameHandler();
-
     }
 
     NextPlayer(flag) {
@@ -145,6 +144,7 @@ class GameManager {
         this.table.ratePlayers = 0;
         this.NextPlayer();
     }
+
     RemoveLosers() {
         let combs = [];
         for (const player of this.table.players) {
@@ -199,11 +199,15 @@ class GameManager {
         } else {
             const money = this.table.bank.tableBank / this.table.players.length;
             for (const player of this.table.players) {
-                player.money = money;
+                player.money += money;
             }
         }
+        this.table.cards = [];
         this.table.bank.tableBank = 0;
+        this.StartGame();
     }
+
+
     PlayerWin(player) {
         const index = this.table.players.indexOf(player);
         let i = 0;
