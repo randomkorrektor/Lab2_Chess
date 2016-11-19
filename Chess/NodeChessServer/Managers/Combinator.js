@@ -88,18 +88,23 @@ class Combinator {
     }
 
     static IsFlush(cards) {
-        let lears = [{ count: 0 }, { count: 0 }, { count: 0 }, { count: 0 }];
+        let lears = [{ }, {  }, { }, { }];
         for (const card of cards) {
-            lears[card.lear].count++;
+            try {
+                (lears[card.lear].count == null) ? (lears[card.lear].count=1): (lears[card.lear].count++);
+            } catch (e){
+                console.log(card);
+                console.log(e)
+            }
             if (lears[card.lear].top == null) {
-                lears[card.lear] = card.rating;
+                lears[card.lear].top = card.rating;
             }
         }
-        let num = lears.find(u => (u > 4));
+        let num = lears.find(u => (u.count > 4));
         if (num) {
             return {
                 code: 6,
-                topCard: lears[num]
+                topCard: lears[num].top
             };
         }
         return null;
@@ -211,18 +216,15 @@ class Combinator {
     static IsTopCard(cards) {
         let topCard = cards[0].rating;
         let kicker = topCard;
-        if (num) {
-            return {
+        return {
                 code: 1,
                 topCard,
                 kicker
             };
-        }
-        return null;
     }
     
     static FindCombination(cards) {
-        carts.sort((a, b) => (b.rating - a.rating));
+        cards.sort((a, b) => (b.rating - a.rating));
         return Combinator.IsRoyalFlush(cards) ||
             Combinator.IsStritFlush(cards) ||
             Combinator.IsSquare(cards) ||
@@ -235,3 +237,5 @@ class Combinator {
     }
 
 }
+
+module.exports = Combinator;

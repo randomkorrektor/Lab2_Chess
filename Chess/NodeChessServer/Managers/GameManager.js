@@ -46,7 +46,7 @@ class GameManager {
         this.table.currentPlayer = (this.table.currentPlayer + 1) % this.table.players.length;
         this.table.players[this.table.currentPlayer].isCurrent = true;
 
-        flag&&this.ioManager.PlayerStep(this.table.players[this.table.currentPlayer], this.table.currentPlayer);
+        !flag&&this.ioManager.PlayerStep(this.table.players[this.table.currentPlayer], this.table.currentPlayer);
     }
 
     RateToBank(playerNumber) {
@@ -99,9 +99,10 @@ class GameManager {
             else if (this.userManager.users.length == 0) {
                 return;
             }
+            return;
         }
 
-        this.ioManager.info("Not your step.");
+        this.ioManager.Info(this.table.players[this.table.currentPlayer], "Not your step.");
     }
 
     EndRateCircle() {
@@ -128,7 +129,7 @@ class GameManager {
             case RoundType.turn:
                 this.table.cards.push(this.table.cardDeck.TopCard());
                 break;
-            case RoundType.flop:
+            case RoundType.river:
                 this.table.cards.push(this.table.cardDeck.TopCard());
                 break;
             case RoundType.show:
@@ -139,8 +140,9 @@ class GameManager {
         this.ioManager.RefreshPlayers(this.table.players);
         this.ioManager.RefreshTable(this.table);
         this.ioManager.StartRoundHandler();
-        this.table.roundType = ((this.table.RoundType + 1) % 4);
-        this.table.currentPlayer = this.table.button;
+        this.table.roundType = ((this.table.roundType + 1) % 4);
+        this.table.currentPlayer = (this.table.button + 1) % this.table.players.length;
+        this.table.ratePlayers = 0;
         this.NextPlayer();
     }
     RemoveLosers() {
