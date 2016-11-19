@@ -21,7 +21,7 @@ class GameManager {
         else if (this.userManager.users.length == 0) {
             return;
         }
-        this.table.players = this.userManager.users.map(u=> (u));
+        this.table.players = this.userManager.users.map(u => (u));
         for (let player of this.table.players) {
             player.hand = this.table.cardDeck.GetHand();
         }
@@ -46,7 +46,7 @@ class GameManager {
         this.table.currentPlayer = (this.table.currentPlayer + 1) % this.table.players.length;
         this.table.players[this.table.currentPlayer].isCurrent = true;
 
-        !flag&&this.ioManager.PlayerStep(this.table.players[this.table.currentPlayer], this.table.currentPlayer);
+        !flag && this.ioManager.PlayerStep(this.table.players[this.table.currentPlayer], this.table.currentPlayer);
     }
 
     RateToBank(playerNumber) {
@@ -66,8 +66,6 @@ class GameManager {
                 case PlayersCommand.call:
                     this.RateToBank(playerNumber);
                     this.table.ratePlayers++;
-                    this.NextPlayer();
-                    this.ioManager.PlayerStep(this.table.players[this.table.currentPlayer], this.table.currentPlayer);
                     break;
                 case PlayersCommand.raise:
                     for (let player of this.table.Players) {
@@ -79,18 +77,15 @@ class GameManager {
                     this.table.bank.RaiseRate(raise);
                     this.RateToBank(playerNumber);
                     this.table.ratePlayers = 1;
-                    this.NextPlayer();
                     break;
                 case PlayersCommand.fold:
                     this.table.players.splice(playerNumber);
+                    this.table.currentPlayer--;
                     break;
                 default:
-                    this.ioManager.info(this.table.players[playerNumber], "Invalid command!");
+                    this.ioManager.Info(this.table.players[playerNumber], "Invalid command!");
             }
 
-            if (this.table.ratePlayers == this.table.players.length) {
-                this.EndRateCircle();
-            }
             if (this.userManager.users.length == 1) {
                 this.ioManager.Win(this.userManager.users[0]);
                 this.EndofGame();
@@ -98,6 +93,12 @@ class GameManager {
             }
             else if (this.userManager.users.length == 0) {
                 return;
+            }
+            if (this.table.ratePlayers == this.table.players.length) {
+                this.EndRateCircle();
+            }
+            else {
+                this.NextPlayer();
             }
             return;
         }
@@ -141,7 +142,7 @@ class GameManager {
         this.ioManager.RefreshTable(this.table);
         this.ioManager.StartRoundHandler();
         this.table.roundType = ((this.table.roundType + 1) % 4);
-        this.table.currentPlayer = (this.table.button + 1) % this.table.players.length;
+        this.table.currentPlayer = (this.table.button);
         this.table.ratePlayers = 0;
         this.NextPlayer();
     }
@@ -218,13 +219,13 @@ class GameManager {
 
     DeadHeat(wplayers) {
         const winners = [];
-        const players = this.table.players.map(u=> (u));
+        const players = this.table.players.map(u => (u));
         for (const player of wplayers) {
             const index = players.indexOf(player);
             players.splice(index, 1);
             this.ioManager.Win(player);
         }
-        
+
         for (const pl of players) {
             this.ioManager.Lose(player);
         }
